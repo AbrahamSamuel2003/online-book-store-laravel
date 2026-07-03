@@ -22,6 +22,38 @@
                     <span class="badge bg-danger mb-3">Out of Stock</span>
                 @endif
 
+                @if($book->stock > 0)
+                    <form action="{{ route('cart.add', $book) }}" method="POST" class="mt-3 mb-4">
+                        @csrf
+
+                        <div class="row g-2 align-items-end">
+                            <div class="col-sm-4">
+                                <label for="quantity" class="form-label">Quantity</label>
+                                <input
+                                    type="number"
+                                    name="quantity"
+                                    id="quantity"
+                                    class="form-control"
+                                    value="1"
+                                    min="1"
+                                    max="{{ $book->stock }}"
+                                    required
+                                >
+                            </div>
+
+                            <div class="col-sm-8">
+                                <button type="submit" class="btn btn-primary w-100">
+                                    Add to Cart
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                @else
+                    <button class="btn btn-secondary mt-3 mb-4" disabled>
+                        Out of Stock
+                    </button>
+                @endif
+
                 <p>{{ $book->description }}</p>
 
                 <ul class="list-group list-group-flush mt-4">

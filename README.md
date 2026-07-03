@@ -1,59 +1,217 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Online Book Store
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A Laravel-based Online Book Store application where customers can browse books, search books, add multiple books to a cart, place an order, and where an admin can manage books and customer orders.
 
-## About Laravel
+## Features
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+### Customer Features
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- View featured books on the home page
+- Search books by title or author
+- View book details
+- Add books to cart with quantity
+- Update or remove cart items
+- Enter customer details during checkout
+- Review order before placing it
+- Place one order containing multiple books
+- View order success confirmation
+- Google Books API recommendations with Load More functionality
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### Admin Features
 
-## Learning Laravel
+- Admin login
+- Dashboard with:
+  - Total books
+  - Available books
+  - Out-of-stock books
+  - Total orders
+  - Recent customer orders
+- Add new books
+- Edit book details, price, and stock
+- Delete books
+- View all customer orders
+- View customer information and ordered books
+- Update order status:
+  - Pending
+  - Confirmed
+  - Delivered
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+## Technologies Used
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+- Laravel 12
+- PHP 8.2
+- MySQL
+- Laravel Blade Templates
+- Bootstrap 5
+- Google Books REST API
+- JavaScript Fetch API
+- Git and GitHub
 
-## Laravel Sponsors
+## Database Tables
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+- users
+- categories
+- books
+- orders
+- order_items
 
-### Premium Partners
+## Database Relationships
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+- One Category has many Books
+- One Order has many Order Items
+- One Book has many Order Items
+- Each Order Item belongs to one Book
 
-## Contributing
+## Installation Steps
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### 1. Clone the repository
 
-## Code of Conduct
+```bash
+git clone https://github.com/AbrahamSamuel2003/online-book-store-laravel.git
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### 2. Move into the project folder
 
-## Security Vulnerabilities
+```bash
+cd online-book-store-laravel
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### 3. Install dependencies
 
-## License
+```bash
+composer install
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### 4. Create environment file
+
+```bash
+copy .env.example .env
+```
+
+### 5. Configure database
+
+Create a MySQL database named:
+
+```text
+online_book_store
+```
+
+Update the `.env` file:
+
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=online_book_store
+DB_USERNAME=root
+DB_PASSWORD=
+```
+
+### 6. Add Google Books API key
+
+Add this in `.env`:
+
+```env
+GOOGLE_BOOKS_API_KEY=your_google_books_api_key
+```
+
+### 7. Generate application key
+
+```bash
+php artisan key:generate
+```
+
+### 8. Run migrations and seed sample data
+
+```bash
+php artisan migrate
+php artisan db:seed --class=BookStoreSeeder
+```
+
+### 9. Create admin user
+
+```bash
+php artisan tinker
+```
+
+Then run:
+
+```php
+App\Models\User::create([
+    'name' => 'Sample Admin',
+    'email' => 'sample@gmail.com',
+    'password' => bcrypt('sample123456'),
+]);
+```
+
+Exit Tinker:
+
+```bash
+exit
+```
+
+### 10. Start the application
+
+```bash
+php artisan serve
+```
+
+Open:
+
+```text
+http://127.0.0.1:8000
+```
+
+## Admin Login
+
+```text
+Email: sample@gmail.com
+Password: sample123456
+```
+
+## Main Pages
+
+```text
+/                     Home page
+/books                Public book listing page
+/cart                 Customer cart
+/admin/login          Admin login page
+/admin/dashboard      Admin dashboard
+/admin/books          Manage books
+/admin/orders         Customer orders
+```
+
+## Google Books API Integration
+
+The project integrates the Google Books REST API using Laravel HTTP Client.
+
+It fetches book recommendations based on a search query and displays them on the home page. The Load More button fetches additional recommendations without reloading the page.
+
+## Order Flow
+
+Customer selects books
+-> Adds books to cart
+-> Enters customer details
+-> Proceeds to checkout
+-> Confirms order
+-> Order saved in database
+-> Stock reduces automatically
+-> Admin can view the order in the Orders page
+
+## Important Environment Note
+
+`.env.example` includes this placeholder:
+
+```env
+GOOGLE_BOOKS_API_KEY=
+```
+
+Do not paste your real API key in `.env.example`.
+
+Your real key should stay only inside:
+
+```text
+.env
+```
+
+The `.env` file should not be pushed to GitHub.

@@ -16,20 +16,44 @@
         </a>
 
         <div>
-            <a class="btn btn-outline-light btn-sm me-2" href="{{ route('home') }}">
-                Home
-            </a>
-
-            <a class="btn btn-outline-light btn-sm me-2" href="{{ route('books.index') }}">
-                Books
-            </a>
-
             @auth
-                <a class="btn btn-warning btn-sm me-2" href="{{ route('admin.dashboard') }}">
+                <a class="btn btn-primary btn-sm me-2" href="{{ route('admin.dashboard') }}">
                     Dashboard
                 </a>
 
+                <a class="btn btn-warning btn-sm me-2" href="{{ route('admin.books.index') }}">
+                    Manage Books
+                </a>
+
+                @if(Route::has('admin.orders.index'))
+                    <a class="btn btn-info btn-sm me-2" href="{{ route('admin.orders.index') }}">
+                        Orders
+                    </a>
+                @endif
+
+                <form action="{{ route('admin.logout') }}" method="POST" class="d-inline">
+                    @csrf
+
+                    <button type="submit" class="btn btn-danger btn-sm">
+                        Logout
+                    </button>
+                </form>
             @else
+                <a class="btn btn-outline-light btn-sm me-2" href="{{ route('home') }}">
+                    Home
+                </a>
+
+                <a class="btn btn-outline-light btn-sm me-2" href="{{ route('books.index') }}">
+                    Books
+                </a>
+
+                <a class="btn btn-outline-light btn-sm me-2" href="{{ route('cart.index') }}">
+                    Cart
+                    <span class="badge bg-warning text-dark">
+                        {{ collect(session('cart', []))->sum('quantity') }}
+                    </span>
+                </a>
+
                 <a class="btn btn-warning btn-sm" href="{{ route('admin.login') }}">
                     Admin Login
                 </a>
